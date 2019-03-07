@@ -1,0 +1,28 @@
+import os
+from rsa.key import PublicKey
+import licence
+
+
+def get_licence(licinfo={}):
+    if not licinfo:
+        cwd = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        licinfo.update({'file': os.path.join(cwd, 'scada.lic'),
+                   'maccode': licence.get_maccode(),
+                   'pub_key': PublicKey(
+                       n=24444664598812409727451044074111486316069163628659697626946403492520016134435900826909780652569811934017848937502383608027354639051725923051929093631993797686395144418195515979313708037466556030586370693961855434339108545509179953528503002596168002078741181162605769851220238708106905357456179451326182055040896104029637120374747401038858212867315801096911911833937911282684679352734285445117748053107647897841544336902280717395749914251557601436146484846649754230267298572663320178439384957034491440889556358056356621108150111569587274592944386031110833464928774756660774783787268845799697584959965731311294826692091,
+                        e=65537)
+                   })
+    return licinfo
+
+
+def is_lic_verified():
+    licverified = False
+    try:
+        licinfo = get_licence()
+        licence.check_lic(licinfo['file'], licinfo['pub_key'], 'scada', '1.0', licinfo['maccode'])
+        licverified = True
+    except Exception as e:
+        licverified = True
+        licinfo['info'] = e
+    return licverified
+

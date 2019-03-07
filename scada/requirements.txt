@@ -1,0 +1,6 @@
+sqlalchemy
+psycopg2
+pyserial==3.0.1
+modbus_tk
+netifaces>=0.10.3, <0.10.6
+rsa
